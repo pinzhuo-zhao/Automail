@@ -81,9 +81,7 @@ public class Simulation {
         /* Instantiate MailPool and Automail */
      	MailPool mailPool = new MailPool(NUM_ROBOTS);
      	IMailDelivery delivery = null;
-        Properties chargeProperties = ResourcesUtil.readProperties("charge.properties");
-        boolean commercialDisplay = Boolean.parseBoolean(automailProperties.getProperty("ChargeDisplay"));
-        delivery = (commercialDisplay) ? new ReportDeliveryWithCharge() : new ReportDelivery();
+        delivery = (CHARGE_DISPLAY) ? new ReportDeliveryWithCharge() : new ReportDelivery();
         Automail automail = new Automail(mailPool, delivery, NUM_ROBOTS);
         MailGenerator mailGenerator = new MailGenerator(MAIL_TO_CREATE, MAIL_MAX_WEIGHT, mailPool, seedMap);
         
@@ -105,9 +103,8 @@ public class Simulation {
             Clock.Tick();
         }
 
-        boolean chargeStat = Boolean.parseBoolean(chargeProperties.getProperty("ChargeStat"));
         AbstractStats stat = null;
-        stat = (chargeStat) ? new StatsWithCharge(total_delay,total_items,total_activities_unit,total_activities_cost,total_service_cost) : new DefaultStats(total_delay);
+        stat = (CHARGE_DISPLAY) ? new StatsWithCharge(total_delay,total_items,total_activities_unit,total_activities_cost,total_service_cost) : new DefaultStats(total_delay);
         stat.printResults();
         System.out.println(wModem.Turnoff());
     }
