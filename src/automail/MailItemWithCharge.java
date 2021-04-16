@@ -30,7 +30,7 @@ public class MailItemWithCharge extends AbstractMailItem {
 //            this.activityUnit = ((destination_floor - 1) * 2) * 5;
 //            this.activityCost = chargePerUnit * activityUnit;
         this.charge = new Charge(this.destination_floor,chargePerUnit);
-        this.priority = (this.charge.getExpectedServiceFee() + this.charge.getActivityCost())*(1 + markupPercentage/100) >= threshold;
+        this.priority = (this.charge.getExpectedServiceFee() + this.charge.getActivityCost())*(1 + markupPercentage) >= threshold;
 
     }
 

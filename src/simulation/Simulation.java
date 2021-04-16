@@ -196,7 +196,7 @@ public class Simulation {
                 Properties automailProperties = ResourcesUtil.readProperties("automail.properties");
                 Properties chargeProperties = ResourcesUtil.readProperties("charge.properties");
                 double markupPercentage = Double.parseDouble(chargeProperties.getProperty("MarkupPercentage"));
-                double totalCharge = (deliveryItemWithCharge.getServiceFee() + deliveryItemWithCharge.getActivityCost()) * (1 + markupPercentage/100);
+                double totalCharge = (deliveryItemWithCharge.getServiceFee() + deliveryItemWithCharge.getActivityCost()) * (1 + markupPercentage);
                 deliveryItemWithCharge.setTotalCharge(totalCharge);
             } catch (Exception e) {
                 e.printStackTrace();
