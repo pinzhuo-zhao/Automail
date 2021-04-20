@@ -36,6 +36,9 @@ public class Simulation {
     private static double total_activities_unit= 0;
     private static double total_activities_cost = 0;
     private static double total_service_cost = 0;
+    private static int total_API_calls = 0;
+    private static int total_failed_calls = 0;
+    private static int total_successful_calls = 0;
 
 
     public static void main(String[] args) throws InstantiationException, IllegalAccessException, ClassNotFoundException, IOException {
@@ -104,7 +107,7 @@ public class Simulation {
         }
 
         AbstractStats stat = null;
-        stat = (CHARGE_DISPLAY) ? new StatsWithCharge(total_delay,total_items,total_activities_unit,total_activities_cost,total_service_cost) : new DefaultStats(total_delay);
+        stat = (CHARGE_DISPLAY) ? new StatsWithCharge(total_delay,total_items,total_activities_unit,total_activities_cost,total_service_cost,total_API_calls,total_failed_calls,total_successful_calls) : new DefaultStats(total_delay);
         stat.printResults();
         System.out.println(wModem.Turnoff());
     }
@@ -191,6 +194,13 @@ public class Simulation {
                 //increment the MailItem's accumulated activity unit by 0.1 everytime it performs a lookup
                 //however, as the lookup fee will only be charged for once, the increment won't affect the final charge amount
                 deliveryItemWithCharge.setActivityUnit(deliveryItemWithCharge.getActivityUnit()+0.1);
+                total_API_calls += 1;
+                if (finalServiceFee >= 0){
+                    total_successful_calls += 1;
+                }
+                else {
+                    total_failed_calls += 1;
+                }
                 } while (finalServiceFee <= 0);
                 deliveryItemWithCharge.setServiceFee(finalServiceFee);
                 Properties automailProperties = ResourcesUtil.readProperties("automail.properties");

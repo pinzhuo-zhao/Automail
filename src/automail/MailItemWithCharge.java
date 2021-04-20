@@ -10,11 +10,6 @@ import simulation.Building;
  * @create: 2021-04-05 23:56
  **/
 public class MailItemWithCharge extends AbstractMailItem {
-    //    private double expectedServiceFee;
-//    private double serviceFee;
-//    private double activityCost;
-//    private double totalCharge;
-//    private double activityUnit;
     private boolean priority;
     private Charge charge;
 
