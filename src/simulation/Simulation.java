@@ -188,6 +188,19 @@ public class Simulation {
             if (deliveryItem instanceof MailItemWithCharge){
                  deliveryItemWithCharge = (MailItemWithCharge) deliveryItem;
             }
+            Properties automailProperties = ResourcesUtil.readProperties("automail.properties");
+
+            double markupPercentage = 0;
+            double chargePerUnit = 0;
+            try {
+                Properties chargeProperties = ResourcesUtil.readProperties("charge.properties");
+                markupPercentage = Double.parseDouble(chargeProperties.getProperty("MarkupPercentage"));
+                chargePerUnit = Double.parseDouble(chargeProperties.getProperty("ChargePerUnit"));
+            }
+                catch (NullPointerException e){
+                    chargePerUnit = 0.224;
+                    markupPercentage = 0.059;
+                }
             try {
                 double finalServiceFee;
                 do {
@@ -195,6 +208,7 @@ public class Simulation {
                 //increment the MailItem's accumulated activity unit by 0.1 everytime it performs a lookup
                 //however, as the lookup fee will only be charged for once, the increment won't affect the final charge amount
                 deliveryItemWithCharge.setActivityUnit(deliveryItemWithCharge.getActivityUnit()+0.1);
+                deliveryItemWithCharge.setActivityCost(deliveryItemWithCharge.getActivityUnit()*chargePerUnit);
                 total_API_calls += 1;
                 if (finalServiceFee >= 0){
                     total_successful_calls += 1;
@@ -205,17 +219,7 @@ public class Simulation {
                 } while (finalServiceFee <= 0);
                 deliveryItemWithCharge.setServiceFee(finalServiceFee);
 
-                Properties automailProperties = ResourcesUtil.readProperties("automail.properties");
 
-//                double markupPercentage = 0;
-//                try {
-
-                    Properties chargeProperties = ResourcesUtil.readProperties("charge.properties");
-                    double markupPercentage = Double.parseDouble(chargeProperties.getProperty("MarkupPercentage"));
-//                }
-//                catch (NullPointerException e){
-//                    markupPercentage = 0.059;
-//                }
 
                 double totalCharge = (deliveryItemWithCharge.getServiceFee() + deliveryItemWithCharge.getActivityCost()) * (1 + markupPercentage);
                 deliveryItemWithCharge.setTotalCharge(totalCharge);

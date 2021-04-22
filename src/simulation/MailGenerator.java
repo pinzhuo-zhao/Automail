@@ -107,17 +107,17 @@ public class MailGenerator {
     public void generateAllMail(){
         Properties automailProperties = ResourcesUtil.readProperties("automail.properties");
 
-//        double chargePerUnit = 0;
-//        double markupPercentage = 0;
-//        try {
+        double chargePerUnit = 0;
+        double markupPercentage = 0;
+        try {
             Properties chargeProperties = ResourcesUtil.readProperties("charge.properties");
-            double chargePerUnit = Double.parseDouble(chargeProperties.getProperty("ChargePerUnit"));
-            double markupPercentage = Double.parseDouble(chargeProperties.getProperty("MarkupPercentage"));
-//        }
-//        catch (NullPointerException e){
-//            chargePerUnit = 0.224;
-//            markupPercentage = 0.059;
-//        }
+            chargePerUnit = Double.parseDouble(chargeProperties.getProperty("ChargePerUnit"));
+            markupPercentage = Double.parseDouble(chargeProperties.getProperty("MarkupPercentage"));
+        }
+        catch (NullPointerException e){
+            chargePerUnit = 0.224;
+            markupPercentage = 0.059;
+        }
         double chargeThreshold = Double.parseDouble(automailProperties.getProperty("ChargeThreshold"));
         boolean commercialDisplay = Boolean.parseBoolean(automailProperties.getProperty("ChargeDisplay"));
         while(!complete){

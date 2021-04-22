@@ -40,6 +40,9 @@ public class MailItemWithCharge extends AbstractMailItem {
     public void setActivityUnit(double activityUnit) {
         this.charge.setActivityUnit(activityUnit);
     }
+    public void setActivityCost(double activityCost) {
+        this.charge.setActivityCost(activityCost);
+    }
 
     public double getActivityCost() {
         return this.charge.getActivityCost();
