@@ -6,6 +6,7 @@ import exceptions.ExcessiveDeliveryException;
 import exceptions.ItemTooHeavyException;
 import exceptions.MailAlreadyDeliveredException;
 
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -203,9 +204,19 @@ public class Simulation {
                 }
                 } while (finalServiceFee <= 0);
                 deliveryItemWithCharge.setServiceFee(finalServiceFee);
+
                 Properties automailProperties = ResourcesUtil.readProperties("automail.properties");
-                Properties chargeProperties = ResourcesUtil.readProperties("charge.properties");
-                double markupPercentage = Double.parseDouble(chargeProperties.getProperty("MarkupPercentage"));
+
+//                double markupPercentage = 0;
+//                try {
+
+                    Properties chargeProperties = ResourcesUtil.readProperties("charge.properties");
+                    double markupPercentage = Double.parseDouble(chargeProperties.getProperty("MarkupPercentage"));
+//                }
+//                catch (NullPointerException e){
+//                    markupPercentage = 0.059;
+//                }
+
                 double totalCharge = (deliveryItemWithCharge.getServiceFee() + deliveryItemWithCharge.getActivityCost()) * (1 + markupPercentage);
                 deliveryItemWithCharge.setTotalCharge(totalCharge);
             } catch (Exception e) {
